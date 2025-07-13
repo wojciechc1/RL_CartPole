@@ -26,4 +26,6 @@ def run_cartpole_episode():
     env.close()
 
 if __name__ == "__main__":
-    run_cartpole_episode()
+    for i in range(10):
+        run_cartpole_episode()
+        print(i)
