@@ -1,7 +1,7 @@
 import gymnasium as gym
+from agent.agent import Agent
+from utils.utils import plot_rewards
 import time
-from agent import Agent
-from utils import plot_rewards
 
 agent = Agent()
 all_rewards = []
@@ -41,6 +41,5 @@ def test_agent(num_episodes=1):
 
 
 if __name__ == "__main__":
-    train_agent(500)
-    test_agent(3)
+    train_agent(200)
     plot_rewards(all_rewards)

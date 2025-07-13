@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 import numpy as np
-from model import DQN
+from model.model import DQN
 import random
 
 class Agent:
