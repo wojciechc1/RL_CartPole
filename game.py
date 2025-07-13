@@ -1,31 +1,41 @@
 import gymnasium as gym
 import time
+from agent import Agent
 
-def run_cartpole_episode():
-    env = gym.make("CartPole-v1", render_mode="human")  # środowisko z renderem w oknie
-    obs = env.reset()
-    done = False
+agent = Agent()
 
-    while not done:
-        env.render()
-        action = env.action_space.sample()  # losowa akcja: 0 lub 1
+def train_agent(num_episodes=100):
+    env = gym.make("CartPole-v1", render_mode=None)  # brak renderowania
+    for episode in range(num_episodes):
+        obs, _ = env.reset()
+        done = False
+        while not done:
+            action = agent.select_action(obs)
+            print(action)
+            next_obs, reward, terminated, truncated, info = env.step(action)
+            done = terminated or truncated
 
-        print(action)
+            agent.store_transition(obs, action, reward, next_obs, terminated)
+            agent.learn()
 
-        obs, reward, terminated, truncated, info = env.step(action)
-        # obs- aktualny stan,
-        # reward (float),
-        # terminated (bool) - Prawda, jeśli np. gra skończyła się sukcesem lub porażką,
-        # truncated — przerwanie epizodu (bool) - Prawda, jeśli epizod zakończył się przedwcześnie z powodu np. limitu czasu lub innych warunków narzuconych poza logiką gry
-        # info — dodatkowe informacje (dict)
-
-        done = terminated or truncated
-
-        time.sleep(0.02)  # żeby animacja nie latala za szybko
+            obs = next_obs
 
     env.close()
 
+def test_agent(num_episodes=1):
+    env = gym.make("CartPole-v1", render_mode="human")  # render w oknie
+    for episode in range(num_episodes):
+        obs, _ = env.reset()
+        done = False
+        while not done:
+            env.render()
+            action = agent.select_action(obs)
+            obs, reward, terminated, truncated, info = env.step(action)
+            done = terminated or truncated
+            time.sleep(0.02)  
+    env.close()
+
+
 if __name__ == "__main__":
-    for i in range(10):
-        run_cartpole_episode()
-        print(i)
+    train_agent(1000)
+    test_agent(3)

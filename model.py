@@ -1,13 +1,13 @@
-import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
-class PolicyNetwork(nn.Module):
-    def __init__(self, obs_dim, n_actions):
+class DQN(nn.Module):
+    def __init__(self, input_dim, output_dim):
         super().__init__()
-        self.fc1 = nn.Linear(obs_dim, 128)
-        self.fc2 = nn.Linear(128, n_actions)
+        self.net = nn.Sequential(
+            nn.Linear(input_dim, 128),
+            nn.ReLU(),
+            nn.Linear(128, output_dim)
+        )
 
     def forward(self, x):
-        x = F.relu(self.fc1(x))
-        return F.softmax(self.fc2(x), dim=1)
+        return self.net(x)
