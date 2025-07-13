@@ -23,8 +23,10 @@ def train_agent(num_episodes=100):
 
             obs = next_obs
         all_rewards.append(total_reward)
+        agent.decent_epsilon()
 
     env.close()
+
 
 def test_agent(num_episodes=1):
     env = gym.make("CartPole-v1", render_mode="human")  # render w oknie

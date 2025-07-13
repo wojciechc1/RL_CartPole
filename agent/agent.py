@@ -7,10 +7,11 @@ import random
 class Agent:
     def __init__(self):
         self.model = DQN(4, 2)  # CartPole: 4 obserwacje, 2 akcje
-        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3)
+        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=0.002)
         self.memory = []
         self.gamma = 0.99
-        self.epsilon = 0.1
+        self.epsilon = 1.0
+
 
     def select_action(self, obs):
         if np.random.rand() < self.epsilon:
@@ -46,3 +47,8 @@ class Agent:
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
+
+
+    def decent_epsilon(self):
+        self.epsilon = max(0.01, self.epsilon * 0.991)
+        #print('[AGENT] decent epsilon: ', self.epsilon)
