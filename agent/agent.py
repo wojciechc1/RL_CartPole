@@ -1,13 +1,12 @@
 import torch
 import torch.nn.functional as F
 import numpy as np
-from model.model import DQN, Q_Net
+from model.model import DQN
 import random
 
 class Agent:
     def __init__(self):
-        #self.model = DQN(4, 2)  # CartPole: 4 obserwacje, 2 akcje
-        self.model = Q_Net(4, 256, 2)  # CartPole: 4 obserwacje, 2 akcje
+        self.model = DQN(4, 2)  # CartPole: 4 obserwacje, 2 akcje
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=0.002)
         self.memory = []
         self.gamma = 0.99
