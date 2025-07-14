@@ -1,1 +1,1 @@
-# RL CARTPOLE
+# RL CARTPOLE - with DQN model
